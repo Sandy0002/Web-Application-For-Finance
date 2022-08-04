@@ -47,9 +47,7 @@ def lott(url):
 lottieCode = lott("https://assets9.lottiefiles.com/packages/lf20_ewpkvfw4.json")
 st.markdown("""
     <h1><i><b>Investments are accessible than ever.</b></i></h1>""",unsafe_allow_html=True)
-'''https://www.youtube.com/watch?v=udfEG48f8UE here we have a yt video link now to convert it into
-        ifrmame and use it we need to remove /watch?v= and put /embed/ and the followed characters which
-        in this case is udf...'''
+
 with st.container():
     leftCol,rightCol =st.columns(2)
     with leftCol:
