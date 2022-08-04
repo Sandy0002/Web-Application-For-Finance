@@ -59,9 +59,6 @@ with st.container():
          </p>""",unsafe_allow_html=True)
         st.write("##")
 
-        '''https://www.youtube.com/watch?v=udfEG48f8UE here we have a yt video link now to convert it into
-        ifrmame and use it we need to remove /watch?v= and put /embed/ and the followed characters which
-        in this case is udf...'''
         st.write("Watch the Importance Of Investment below  ")
         video="""
         <style>
