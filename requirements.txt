@@ -2,3 +2,4 @@ streamlit
 streamlit_lottie
 requests
 newapi-python
+pycountry
