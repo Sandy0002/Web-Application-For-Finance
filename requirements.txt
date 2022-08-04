@@ -1,5 +1,5 @@
 streamlit
 streamlit_lottie
 requests
-newapi-python
+newsapi-python
 pycountry
