@@ -52,7 +52,7 @@ with st.container():
     leftCol,rightCol =st.columns(2)
     with leftCol:
         st.header("What to do with this?")
-        st.markdown("""<p style="color:black">
+        st.markdown("""<p>
         As we have seen in the past few years. Life has taught us that everything is uncertain.
         Anything can happen at anytime.We must be prepared. So when nobody comes to help it is
         our investments that aid us in hard times. We look forward to help you in  that with our tool
