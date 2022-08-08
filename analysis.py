@@ -5,7 +5,7 @@ import datetime
 import wikipedia as wi
 import requests as r
 import plotly.graph_objs as go
-from nsepython import *
+
 
 st.set_page_config(page_title="Analysis with Investant",page_icon=":mag:",layout="wide")
 
