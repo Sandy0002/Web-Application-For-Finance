@@ -15,20 +15,17 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 # 3498DB
 st.markdown(f"""
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #B2EA14;">
-  <a class="navbar-brand" href="https://share.streamlit.io/sandeep12-2021/stream-prac/main/app.py" target="_self">Home</a>
+  <a class="navbar-brand" href="https://sandy0002-final-year-project-homehome-fcjqd2.streamlitapp.com/" target="_self">Home</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="https://share.streamlit.io/sandeep12-2021/stream-prac/main/newApp.py" target="_self">News</a>
-      </li>
       <li class="nav-item ">
-        <a class="nav-link" href="#">Analysis <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="https://sandy0002-final-year-project-analysis-t75var.streamlitapp.com/">Analysis <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="http://localhost:8501" target="_self">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/" target="_self">Forecast</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="https://www.youtube.com" target="_self" >Logout</a>
