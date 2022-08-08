@@ -218,7 +218,7 @@ if asset=="Stocks":
                 if len(tickrdf)==0:
                     tickrdf,low,high = nse(tickr,stDate,endDate)
             else:
-                tickrdf,low,high =nse(t,stDate,endDate)
+                tickrdf,low,high =nse(tickr,stDate,endDate)
                 end = endDate
                 index='NIFTY'
 
