@@ -25,7 +25,7 @@ st.markdown(f"""
         <a class="nav-link" href="https://sandy0002-final-year-project-analysis-t75var.streamlitapp.com/">Analysis <span class="sr-only">(current)</span></a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/" target="_self">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/">Forecast</a>
       </li>
     </ul>
   </div>
