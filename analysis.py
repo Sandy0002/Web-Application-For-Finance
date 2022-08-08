@@ -9,33 +9,6 @@ from nsepython import *
 
 st.set_page_config(page_title="Analysis with Investant",page_icon=":mag:",layout="wide")
 
-def nse(tickr,stDate,endDate):
-    sta = stDate
-    sta = datetime.date.strftime(sta, '%d-%m-%Y')
-    end = endDate
-    end = datetime.date.strftime(end, '%d-%m-%Y')
-
-    dta = equity_history(tickr, series='EQ', start_date=str(sta), end_date=str(end))
-    high = dta["CH_52WEEK_HIGH_PRICE"]
-    high = high.max()
-    low = dta['CH_52WEEK_LOW_PRICE']
-    low = low.min()
-    data = dta[['CH_TRADE_HIGH_PRICE', 'CH_TRADE_LOW_PRICE', 'CH_OPENING_PRICE', 'CH_CLOSING_PRICE',
-                 'CH_TOT_TRADED_QTY', 'TIMESTAMP']]
-
-    # Open Close High Low Volume
-
-    data = data.rename(columns={'CH_TRADE_HIGH_PRICE': 'High',
-                                'CH_TRADE_LOW_PRICE': 'Low',
-                                'CH_OPENING_PRICE': 'Open',
-                                'CH_CLOSING_PRICE': 'Close',
-                                'CH_TOT_TRADED_QTY': 'Volume',
-                                'TIMESTAMP': 'Date'})
-
-    data['Date'] = pd.to_datetime(data['Date'])
-    data = data.set_index('Date')
-
-    return data,low,high
 
 def nif(company,tickrdf,low,high):
     st.header(company)
@@ -120,8 +93,8 @@ st.markdown("""
 
 asset = st.sidebar.radio("Select Asset",["Stocks","Cryptos"])
 if asset=="Stocks":
-    indexes = ["SENSEX","NIFTY","S&P 500","NASDAQ-100",""]
-    index =st.sidebar.selectbox("Select Index",options=indexes,index=4)
+    indexes = ["SENSEX","S&P 500","NASDAQ-100",""]
+    index =st.sidebar.selectbox("Select Index",options=indexes,index=len(indexes)-1)
 
     sensexUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_BSE_SENSEX_companies')
     sencomp = list(sensexUrl[0]['Companies'])
@@ -130,12 +103,6 @@ if asset=="Stocks":
     for i,j in zip(sencomp,sensym):
         sensex[i]=j
 
-    nifUrl=pd.read_html('https://en.wikipedia.org/wiki/NIFTY_50#Constituents')
-    nifcomp = list(nifUrl[1]['Company Name'])
-    nifsym = list(nifUrl[1]['Symbol'])
-    nifty = {}
-    for i, j in zip(nifcomp, nifsym):
-        nifty[i]=j
 
     spUrl=pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks')
     spcomp = spUrl[0]['Security']
@@ -154,15 +121,15 @@ if asset=="Stocks":
     if index=="SENSEX":
         opt = [i for i in sensex.keys()]
 
-    elif index=="NIFTY":
-        opt = [i for i in nifty.keys()]
 
     elif index=="S&P 500":
         comp = st.sidebar.text_input("Enter Company Name")
-        if comp in sp.keys():
-            st.write(sp[comp])
-        elif comp and comp not in sp.keys():
-            if comp=="Google" or comp=="Alphabet":
+        if comp:
+            temp = ''
+            t = comp[0].upper()
+            t1 = comp[1:].lower()
+            comp = t + t1
+            if comp == "Google" or comp == "Alphabet":
                 if comp == 'Google':
                     comp = 'Alphabet Inc. (Class A)'
                 elif comp == 'Alphabet':
@@ -170,8 +137,15 @@ if asset=="Stocks":
                 temp = comp
 
             else:
+                i = 0
+                while i < len(sp):
+                    if comp in spcomp[i]:
+                        comp = spcomp[i]
+                        temp = spcomp[i]
+                    i += 1
+            if temp == '':
                 st.write("# Currently unavailable")
-        company=comp
+        company = comp
 
     elif index=="NASDAQ-100":
         opt = [i for i in nasd.keys()]
@@ -191,9 +165,6 @@ if asset=="Stocks":
     if index == "SENSEX":
         tickr = sensex[company]
         t = sensex[company]
-    elif index == "NIFTY":
-        tickr = nifty[company]
-        t = nifty[company]
     elif index == "S&P 500" and company :
         tickr = sp[company]
     elif index == "NASDAQ-100":
@@ -208,124 +179,117 @@ if asset=="Stocks":
              "1 Hour":'1h',"1 Day":'1d',"5 Days": '5d',"1 Month":'1mo', "3 Months":'3mo'}
     intList = [i for i in inter.keys()]
 
-    if index != 'NIFTY':
-        interval = st.sidebar.selectbox("Select interval of data",options=intList,index=8)
+
+    interval = st.sidebar.selectbox("Select interval of data",options=intList,index=8)
     st.write("##")
     if st.sidebar.button("Enter"):
         if stDate<endDate:
-            if index!='NIFTY':
-                tickrdf = tickrData.history(period=interval,start=stDate,end=endDate)
-                if len(tickrdf)==0:
-                    tickrdf,low,high = nse(tickr,stDate,endDate)
-            else:
-                tickrdf,low,high =nse(tickr,stDate,endDate)
-                end = endDate
-                index='NIFTY'
-
-            if index!='NIFTY':
-                try:
-                    # Display of data
-                    if tickrData.info['logo_url']:
-                        logo = '<img src=%s>' % tickrData.info['logo_url']
-                        st.markdown(logo,unsafe_allow_html=True)
-
-                    name = tickrData.info['longName']
-                    st.header('**%s**' % name)
-
-                    if 'longBusinessSummary' in tickrData.info:
-                        st.info(tickrData.info['longBusinessSummary'])
-                    else:
-                        st.info(wi.summary(name))
-
-                    st.header("**Stats**")
-                    if tickrData.info['previousClose']:
-                        st.subheader("Previous Close Value")
-                        st.write(tickrData.info['previousClose'])
-                    st.write("##")
-                    if tickrData.info['fiftyTwoWeekLow']:
-                        st.subheader("52 Week Low")
-                        st.write(tickrData.info['fiftyTwoWeekLow'])
-                    st.write("##")
-                    if tickrData.info['fiftyTwoWeekHigh']:
-                        st.subheader("52 Week High")
-                        st.write(tickrData.info['fiftyTwoWeekHigh'])
-
-                    st.write("##")
-
-                    st.header("**Data**")
-                    st.write(tickrdf[['Open','Close']])
-                    st.header("Closing Values")
-                    st.write("Plots from ",stDate,"to ",endDate, "for ",company,"for closing values" )
-                    st.line_chart(tickrdf['Close'])
-                    fig = go.Figure(data=[go.Candlestick(
-                        x=tickrdf.index,
-                        open=tickrdf['Open'],
-                        close=tickrdf['Close'],
-                        low=tickrdf['Low'],
-                        high=tickrdf['High']
-                    )])
-
-                    st.plotly_chart(fig)
-                    st.write("##")
-                    st.subheader("Volumes Exchanged")
-                    st.write(tickrdf['Volume'])
-                    st.line_chart(tickrdf['Volume'])
-                    st.bar_chart(tickrdf['Volume'])
+            tickrdf = tickrData.history(period=interval,start=stDate,end=endDate)
 
 
-                    st.write("##")
-                    st.header("**Balence Sheet**")
-                    st.write(tickrData.balancesheet)
 
-                    st.write("##")
-                    st.header("**Quarterly Balence Sheet**")
-                    st.write(tickrData.quarterly_balancesheet)
+            try:
+                # Display of data
+                if tickrData.info['logo_url']:
+                    logo = '<img src=%s>' % tickrData.info['logo_url']
+                    st.markdown(logo,unsafe_allow_html=True)
 
-                    st.write("##")
-                    st.header("**Earnings**")
-                    st.write(tickrData.earnings)
+                name = tickrData.info['longName']
+                st.header('**%s**' % name)
 
-                    st.write("##")
-                    st.header("**Quarterly Earnings**")
-                    st.write(tickrData.quarterly_earnings)
+                if 'longBusinessSummary' in tickrData.info:
+                    st.info(tickrData.info['longBusinessSummary'])
+                else:
+                    st.info(wi.summary(name))
 
-                    st.write("##")
-                    st.write(tickrData.shares)
-                    st.write(tickrData.institutional_holders)
+                st.header("**Stats**")
+                if tickrData.info['previousClose']:
+                    st.subheader("Previous Close Value")
+                    st.write(tickrData.info['previousClose'])
+                st.write("##")
+                if tickrData.info['fiftyTwoWeekLow']:
+                    st.subheader("52 Week Low")
+                    st.write(tickrData.info['fiftyTwoWeekLow'])
+                st.write("##")
+                if tickrData.info['fiftyTwoWeekHigh']:
+                    st.subheader("52 Week High")
+                    st.write(tickrData.info['fiftyTwoWeekHigh'])
 
-                    st.write(tickrData.get_major_holders())
+                st.write("##")
+
+                st.header("**Data**")
+                st.write(tickrdf[['Open','Close']])
+                st.header("Closing Values")
+                st.write("Plots from ",stDate,"to ",endDate, "for ",company,"for closing values" )
+                st.line_chart(tickrdf['Close'])
+                fig = go.Figure(data=[go.Candlestick(
+                    x=tickrdf.index,
+                    open=tickrdf['Open'],
+                    close=tickrdf['Close'],
+                    low=tickrdf['Low'],
+                    high=tickrdf['High']
+                )])
+
+                st.plotly_chart(fig)
+                st.write("##")
+                st.subheader("Volumes Exchanged")
+                st.write(tickrdf['Volume'])
+                st.line_chart(tickrdf['Volume'])
+                st.bar_chart(tickrdf['Volume'])
 
 
-                    st.write("##")
-                    st.header("**Financial Statements**")
-                    st.write(tickrData.financials)
+                st.write("##")
+                st.header("**Balence Sheet**")
+                st.write(tickrData.balancesheet)
 
-                    st.write("##")
-                    st.header("**Quarterly Financial Statements**")
-                    st.write(tickrData.quarterly_financials)
+                st.write("##")
+                st.header("**Quarterly Balence Sheet**")
+                st.write(tickrData.quarterly_balancesheet)
 
-                    st.write("##")
-                    st.header("**Cash Flows**")
-                    st.write(tickrData.cashflow)
+                st.write("##")
+                st.header("**Earnings**")
+                st.write(tickrData.earnings)
 
-                    st.write("##")
-                    st.header("**Quarterly Cash Flows**")
-                    st.write(tickrData.quarterly_cashflow)
+                st.write("##")
+                st.header("**Quarterly Earnings**")
+                st.write(tickrData.quarterly_earnings)
 
-                    st.write("##")
-                    st.header("**Actions**")
-                    act = tickrData.actions
-                    st.write(tickrData.actions)
-                    if len(act)>1:
-                        st.bar_chart(act['Dividends'])
+                st.write("##")
+                st.write(tickrData.shares)
+                st.write(tickrData.institutional_holders)
 
-                    st.write('##')
-                    st.header("**Activities**")
-                    st.write(tickrData.recommendations)
-                except:
-                    st.header('May be delisted')
-            else:
-                nif(company, tickrdf,low, high)
+                st.write(tickrData.get_major_holders())
+
+
+                st.write("##")
+                st.header("**Financial Statements**")
+                st.write(tickrData.financials)
+
+                st.write("##")
+                st.header("**Quarterly Financial Statements**")
+                st.write(tickrData.quarterly_financials)
+
+                st.write("##")
+                st.header("**Cash Flows**")
+                st.write(tickrData.cashflow)
+
+                st.write("##")
+                st.header("**Quarterly Cash Flows**")
+                st.write(tickrData.quarterly_cashflow)
+
+                st.write("##")
+                st.header("**Actions**")
+                act = tickrData.actions
+                st.write(tickrData.actions)
+                if len(act)>1:
+                    st.bar_chart(act['Dividends'])
+
+                st.write('##')
+                st.header("**Activities**")
+                st.write(tickrData.recommendations)
+            except:
+                st.header('May be delisted')
+
         else:
             st.header('Not available')
 
@@ -476,9 +440,3 @@ elif asset=="Cryptos":
                 st.write('NA')
         else:
             st.header('Not available')
-
-
-
-
-
-
