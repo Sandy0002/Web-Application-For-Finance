@@ -27,9 +27,6 @@ st.markdown(f"""
       <li class="nav-item">
         <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/" target="_self">Forecast</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="https://www.youtube.com" target="_self" >Logout</a>
-      </li>
     </ul>
   </div>
 </nav>
