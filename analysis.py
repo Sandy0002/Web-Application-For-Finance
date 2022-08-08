@@ -72,10 +72,10 @@ st.markdown("""
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item ">
-        <a class="nav-link" href="https://sandy0002-final-year-project-news-o8u51n.streamlitapp.com/" target="_self">News</a>
+        <a class="nav-link" href="https://sandy0002-final-year-project-news-o8u51n.streamlitapp.com/">News</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/" target="_self">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/">Forecast</a>
       </li>
     </ul>
   </div>
