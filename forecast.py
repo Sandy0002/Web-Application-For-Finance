@@ -17,7 +17,7 @@ class config:
             footer {visibility: hidden}
             MainMenu {visibility:visible}</style>"""
         self.navBar="""
-    <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#C35CF7">
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#67EADA">
       <a class="navbar-brand" href="https://sandy0002-final-year-project-homehome-fcjqd2.streamlitapp.com/" target="_self">Home  </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
