@@ -43,28 +43,32 @@ kind = st.sidebar.selectbox("Select news type",options=feedType)
 st.sidebar.write("##")
 
 categoryList = ['General', 'Business', 'Health', 'Technology', 'Science', 'Entertainment', 'Sports']
-if kind=="International":
+if kind=="International" or kind=="Local:
 
     cat = st.sidebar.selectbox("Select News Category",categoryList)
     st.sidebar.write("##")
     newsCount = st.sidebar.selectbox("Select the number of news headlines", [5, 10, 15, 20, 25, 30], index=3)
     st.sidebar.write("##")
-    headlines = newsapi.get_top_headlines(language="en", category=cat.lower(), page_size=newsCount)
+    if kind=="International":
+        headlines = newsapi.get_top_headlines(language="en", category=cat.lower(), page_size=newsCount)
+    else:
+        contName = pc.countries.get(name="India").alpha_2
+        headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
+    
 
-if kind=="Local":
-    cat = st.sidebar.selectbox("Select the news category",options=categoryList)
-    st.sidebar.write("##")
-
-    newsCount=st.sidebar.selectbox("Select the number of news headlines",[5,10,15,20,25,30],index=3)
-
-    st.sidebar.write("##")
-    contName = pc.countries.get(name="India").alpha_2
-    headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
+# if kind=="Local":
+#     cat = st.sidebar.selectbox("Select the news category",options=categoryList)
+#     st.sidebar.write("##")
+#     newsCount=st.sidebar.selectbox("Select the number of news headlines",[5,10,15,20,25,30],index=3)
+#     st.sidebar.write("##")
+#     contName = pc.countries.get(name="India").alpha_2
+#     headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
     
 
 
-elif kind=="Particulars":
-    particularNews= st.sidebar.text_input("If any particular news type here")
+# elif kind=="Particulars":
+else:
+    particularNews= st.sidebar.text_input("Enter the topic:")
     newsCount=st.sidebar.selectbox("Select the number of articles",[5,10,15,20,25,30],index=3)
     if particularNews:
         everything = newsapi.get_everything(q=particularNews, language='en',page_size=newsCount)
