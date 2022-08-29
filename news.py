@@ -73,7 +73,7 @@ else:
     if particularNews:
         everything = newsapi.get_everything(q=particularNews, language='en',page_size=newsCount)
 articles=""
-if kind!="Particular Topic":
+if kind!="Particulars":
     articles= headlines['articles']
 
 # if no headlines are there then we are giving the all the articles regarding that country
