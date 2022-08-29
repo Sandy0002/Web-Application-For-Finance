@@ -57,24 +57,10 @@ if kind=="Local":
 
     newsCount=st.sidebar.selectbox("Select the number of news headlines",[5,10,15,20,25,30],index=3)
 
-    # name of the country in 2 digits
-    # contryList= ['Australia', 'Canada',
-    #               'China',   'Germany',  'France',
-    #               'Britain', 'Indonesia','Israel', 'India','Japan',
-    #               'New Zealand','Philippines',
-    #                'Russia', 'Saudi Arabia', 'Singapore','South Korea', 'Switzerland',
-    #               'Turkey', 'Taiwan', 'Ukraine','United Arab Emirates',   'United States', 'South Africa']
-
-    # codes ={"South Korea":"KR",  "Russia":"RU","Taiwan":"TW","Britain":"GB"}
     st.sidebar.write("##")
-    # contry = st.sidebar.selectbox("Select the country for headlines",options=contryList,index=8)
-    # if contry in codes:
-    #     contName=codes[contry]
-    # else:
-    #     contName=pc.countries.get(name=contry).alpha_2
     contName = pc.countries.get(name="India").alpha_2
     headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
-    # everything= newsapi.get_everything(q=contName, language='en',page_size=newsCount)
+    
 
 
 elif kind=="Particulars":
