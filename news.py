@@ -43,7 +43,7 @@ kind = st.sidebar.selectbox("Select news type",options=feedType)
 st.sidebar.write("##")
 
 categoryList = ['General', 'Business', 'Health', 'Technology', 'Science', 'Entertainment', 'Sports']
-if kind=="International" or kind=="Local:
+if kind=="International" or kind=="Local":
 
     cat = st.sidebar.selectbox("Select News Category",categoryList)
     st.sidebar.write("##")
