@@ -54,19 +54,7 @@ if kind=="International" or kind=="Local":
     else:
         contName = pc.countries.get(name="India").alpha_2
         headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
-    
-
-# if kind=="Local":
-#     cat = st.sidebar.selectbox("Select the news category",options=categoryList)
-#     st.sidebar.write("##")
-#     newsCount=st.sidebar.selectbox("Select the number of news headlines",[5,10,15,20,25,30],index=3)
-#     st.sidebar.write("##")
-#     contName = pc.countries.get(name="India").alpha_2
-#     headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
-    
-
-
-# elif kind=="Particulars":
+ 
 else:
     particularNews= st.sidebar.text_input("Enter the topic:")
     newsCount=st.sidebar.selectbox("Select the number of articles",[5,10,15,20,25,30],index=3)
