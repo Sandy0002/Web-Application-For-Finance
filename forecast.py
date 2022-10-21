@@ -311,14 +311,17 @@ a = Asset()
 st.sidebar.write("##")
 butt = st.sidebar.button("Enter")
 if butt:
-    tickr = a.tick()
-    data = None
-    if tickr:
-        data = Data(tickr)
-        data = data.getData()
+    with st.empty():
+        st.write('Please wait results are being prepared')
+        tickr = a.tick()
+        data = None
+        if tickr:
+            data = Data(tickr)
+            data = data.getData()
 
-    m = Model(data)
-    model = m.makeModel()
+        m = Model(data)
+        model = m.makeModel()
+        st.write('')
     f = Forecast(tickr, data, model)
     f.forecast()
 
