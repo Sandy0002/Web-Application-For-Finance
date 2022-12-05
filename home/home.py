@@ -81,11 +81,11 @@ with st.container():
         """
 
         st.markdown(video,unsafe_allow_html=True)
-        
+        st.write("##")
         st.header('With our web application:')
-        st.markdown('''  User can get the prefrred news feed.
-                         User can analyze various stocks of various exchanges and cryptos as well.
-                         User can get the future predictions as well.''',unsafe_allow_html=True)
+        st.write('User can get the prefrred news feed.')
+        st.write('User can analyze various stocks of various exchanges and cryptos as well.')
+        st.write('User can get the future predictions as well.')
     
    
         # now we are going to add animation using lottie
