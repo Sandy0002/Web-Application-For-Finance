@@ -55,10 +55,6 @@ with st.container():
         our investments that aid us in hard times. We look forward to help you in  that with our tool
          which provides basic functionalities that is needed to get started investing.""",unsafe_allow_html=True)
         
-        st.write(''' ** With our web application user can analyze stocks of various companies listed 
-        in various indexes along with getting news feed based on the preferences. And can get the future 
-        predicitons as well. ** ''')
-         
         st.write("##")
 
         
@@ -85,12 +81,15 @@ with st.container():
         """
 
         st.markdown(video,unsafe_allow_html=True)
-
+        
+        st.header('With our web application:')
+        st.markdown('''  User can get the prefrred news feed.
+                         User can analyze various stocks of various exchanges and cryptos as well.
+                         User can get the future predictions as well.''',unsafe_allow_html=True)
+    
+   
         # now we are going to add animation using lottie
     with rightCol:
         st_lottie(lottieCode,height=350,key="Investing")
-
-
-
-
-
+        
+      
