@@ -54,6 +54,9 @@ with st.container():
         Anything can happen at anytime.We must be prepared. So when nobody comes to help it is
         our investments that aid us in hard times. We look forward to help you in  that with our tool
          which provides basic functionalities that is needed to get started investing.
+         
+        With our web application user can analyze stocks of various companies listed in various indexes
+        along with getting news feed based on the preferences. And can get the future predicitons as well.
          </p>""",unsafe_allow_html=True)
         st.write("##")
 
