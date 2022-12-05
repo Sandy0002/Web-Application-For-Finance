@@ -50,14 +50,16 @@ with st.container():
     with leftCol:
         st.header("What to do with this?")
         st.markdown("""<p>
-        As we have seen in the past few years. Life has taught us that everything is uncertain.
+        As we have seen in the past few years. Life is uncertain.
         Anything can happen at anytime.We must be prepared. So when nobody comes to help it is
         our investments that aid us in hard times. We look forward to help you in  that with our tool
          which provides basic functionalities that is needed to get started investing.
          
-        With our web application user can analyze stocks of various companies listed in various indexes
-        along with getting news feed based on the preferences. And can get the future predicitons as well.
+        With our web application user can analyze stocks of various companies listed in various
+        indexes along with getting news feed based on the preferences. And can get the future 
+        predicitons as well.
          </p>""",unsafe_allow_html=True)
+        
         st.write("##")
 
 
