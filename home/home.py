@@ -88,7 +88,7 @@ with st.container():
         st.write('User can get the future predictions as well.')
         
         st.write('##')
-        st.write('** Hurry up and get started today by signing on **')
+        st.write('** Hurry up and get started today by signing on**')
    
         # now we are going to add animation using lottie
     with rightCol:
