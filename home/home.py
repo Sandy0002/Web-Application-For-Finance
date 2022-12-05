@@ -86,7 +86,9 @@ with st.container():
         st.write('User can get the prefrred news feed.')
         st.write('User can analyze various stocks of various exchanges and cryptos as well.')
         st.write('User can get the future predictions as well.')
-    
+        
+        st.write('##')
+        st.write('** Hurry up and get started today by signing on **')
    
         # now we are going to add animation using lottie
     with rightCol:
