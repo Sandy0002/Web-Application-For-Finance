@@ -11,7 +11,7 @@ hideStyle="""
     footer {visibility:hidden;}
     </style>"""
 
-st.set_page_config(page_title="Investant",page_icon=":moneybag:",layout="wide")
+st.set_page_config(page_title="InvestEd",page_icon=":moneybag:",layout="wide")
 st.markdown(hideStyle,unsafe_allow_html=True)
 
 st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
