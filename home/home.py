@@ -21,7 +21,7 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 # add margin-left=800px for the li having Login
 st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#7E0994">
-  <a class="navbar-brand" href="#" target="_self"><b><h4>Investant</h4><b></a>
+  <a class="navbar-brand" href="#" target="_self"><b><h4>InvestEd</h4><b></a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
