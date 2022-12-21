@@ -118,8 +118,7 @@ if asset=="Stocks":
 
     elif index=="S&P 500":
         comp = st.sidebar.text_input("Enter Company Name")
-        if comp not in spcomp:
-                comp=None
+       
         if comp:
             temp = ''
             t = comp[0].upper()
@@ -283,7 +282,6 @@ if asset=="Stocks":
                 st.write(tickrData.recommendations)
             except:
                 pass
-
         else:
             st.header('Not available')
 
