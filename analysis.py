@@ -170,9 +170,7 @@ if asset=="Stocks":
 
     if tickr!=None:
         tickrData=y.Ticker(tickr)
-    else:
-        st.write("Please check the entries")
-
+  
     inter = {"1 Minute":'1m',"2 Minutes":'2m',"5 Minutes":'5m',"15 Minutes":'15m', "30 Minutes":'30m',
              "1 Hour":'1h',"1 Day":'1d',"5 Days": '5d',"1 Month":'1mo', "3 Months":'3mo'}
     intList = [i for i in inter.keys()]
