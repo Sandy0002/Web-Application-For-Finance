@@ -259,10 +259,6 @@ if asset=="Stocks":
                 st.write(tickrData.financials)
 
                 st.write("##")
-                st.header("**Quarterly Financial Statements**")
-                st.write(tickrData.quarterly_financials)
-
-                st.write("##")
                 st.header("**Cash Flows**")
                 st.write(tickrData.cashflow)
 
@@ -276,10 +272,16 @@ if asset=="Stocks":
                 st.write(tickrData.actions)
                 if len(act)>1:
                     st.bar_chart(act['Dividends'])
+                
+                st.write("##")
+                st.header("**Quarterly Financial Statements**")
+                st.write(tickrData.quarterly_financials)
 
                 st.write('##')
                 st.header("**Activities**")
                 st.write(tickrData.recommendations)
+                
+                
             except:
                 pass
         else:
