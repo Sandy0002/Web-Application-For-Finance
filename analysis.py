@@ -284,8 +284,8 @@ if asset=="Stocks":
             except:
                 pass
 
-       else:
-        st.header('Not available')
+        else:
+            st.header('Not available')
 
 
 elif asset=="Cryptos":
