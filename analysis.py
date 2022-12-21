@@ -282,7 +282,7 @@ if asset=="Stocks":
                 st.header("**Activities**")
                 st.write(tickrData.recommendations)
             except:
-                st.header('May be delisted')
+                pass
 
         else:
             st.header('Not available')
