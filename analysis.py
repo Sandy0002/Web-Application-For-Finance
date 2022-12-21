@@ -179,7 +179,7 @@ if asset=="Stocks":
     interval = st.sidebar.selectbox("Select interval of data",options=intList,index=8)
     st.write("##")
     if st.sidebar.button("Enter"):
-        if stDate<endDate:
+        if stDate<endDate and ticker!=None:
             tickrdf = tickrData.history(period=interval,start=stDate,end=endDate)
 
 
