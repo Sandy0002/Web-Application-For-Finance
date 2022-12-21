@@ -182,8 +182,6 @@ if asset=="Stocks":
         if stDate<endDate and ticker!=None:
             tickrdf = tickrData.history(period=interval,start=stDate,end=endDate)
 
-
-
             try:
                 # Display of data
                 if tickrData.info['logo_url']:
@@ -286,8 +284,8 @@ if asset=="Stocks":
             except:
                 pass
 
-        else:
-            st.header('Not available')
+       else:
+        st.header('Not available')
 
 
 elif asset=="Cryptos":
