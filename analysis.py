@@ -118,6 +118,8 @@ if asset=="Stocks":
 
     elif index=="S&P 500":
         comp = st.sidebar.text_input("Enter Company Name")
+        if sp[comp]==None:
+            company=None
         if comp:
             temp = ''
             t = comp[0].upper()
