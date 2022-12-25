@@ -2,7 +2,7 @@ from newsapi import NewsApiClient
 import pycountry as pc
 import streamlit as st
 
-st.set_page_config(page_title="News By Investant",page_icon=":newspaper:",layout="wide")
+st.set_page_config(page_title="News By InvestEd",page_icon=":newspaper:",layout="wide")
 hideStyle=""" <style>
     header {visibility:hidden}
     footer {visibility: hidden}
