@@ -7,7 +7,7 @@ import requests as r
 import plotly.graph_objs as go
 
 
-st.set_page_config(page_title="Analysis with Investant",page_icon=":mag:",layout="wide")
+st.set_page_config(page_title="Analysis with InvestEd",page_icon=":mag:",layout="wide")
 
 
 def nif(company,tickrdf,low,high):
