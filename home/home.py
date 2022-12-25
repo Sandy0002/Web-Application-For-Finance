@@ -82,7 +82,7 @@ with st.container():
 
         st.markdown(video,unsafe_allow_html=True)
         st.write("##")
-        st.header('With our web application:')
+        st.header('With this web app:')
         st.write('User can get the preferred news feed.')
         st.write('User can analyze various stocks of various exchanges and cryptos as well.')
         st.write('User can get the future predictions as well.')
