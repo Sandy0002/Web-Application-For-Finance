@@ -1,6 +1,5 @@
 # Web-Application-For-Finance
 
-This app have been built on STREAMLIT framework and have been deployed on STREAMLIT CLOUD for performance factors.
+This app is built with STREAMLIT framework and deployed on STREAMLIT CLOUD for performance factors.
 User can get rich experience using this app.
-This repository consist of app link.
-And upon landing on the page there are things to be expected are mentioned.
+App link can be found in this repository.
