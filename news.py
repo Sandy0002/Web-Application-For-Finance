@@ -32,8 +32,8 @@ st.markdown(f"""
 </nav>
 """, unsafe_allow_html=True)
 
-# pass =#@Project123
-key ="ef8a6ffb16594c56820310414dc5922d"
+
+key ="xxxxxxxxxxxxxxxxx"
 
 newsapi = NewsApiClient(api_key=key)
 
