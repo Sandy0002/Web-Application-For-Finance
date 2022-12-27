@@ -19,17 +19,17 @@ st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootst
 
 st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#D428C4">
-  <a class="navbar-brand" href="https://sandy0002-final-year-project-homehome-fcjqd2.streamlitapp.com/" target="_self">Home  </a>
+  <a class="navbar-brand" href="https://sandy0002-web-application-for-finance-homehome-jz9ii7.streamlit.app/" target="_self">Home  </a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item ">
-        <a class="nav-link" href="https://sandy0002-final-year-project-news-o8u51n.streamlitapp.com/">News</a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-news-ealg1b.streamlit.app/">News</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://sandy0002-final-year-project-forecast-favi2o.streamlitapp.com/">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-forecast-ooclvh.streamlit.app/">Forecast</a>
       </li>
     </ul>
   </div>
