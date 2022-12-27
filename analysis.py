@@ -26,10 +26,10 @@ st.markdown("""
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item ">
-        <a class="nav-link" href="https://sandy0002-web-application-for-finance-news-ealg1b.streamlit.app/">News</a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-news-ealg1b.streamlit.app/" target="_self" >News</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://sandy0002-web-application-for-finance-forecast-ooclvh.streamlit.app/">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-forecast-ooclvh.streamlit.app/" target="_self">Forecast</a>
       </li>
     </ul>
   </div>
