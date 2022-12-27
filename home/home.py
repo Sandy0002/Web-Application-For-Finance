@@ -53,7 +53,6 @@ with st.container():
         
         st.write("##")
 
-        
         st.write("Watch the Importance Of Investment below  ")
         video="""
         <style>
@@ -88,6 +87,5 @@ with st.container():
    
         # now we are going to add animation using lottie
     with rightCol:
-        st_lottie(lottieCode,height=350,key="Investing")
-        
-      
+        st_lottie(lottieCode,height=350,key="Investing")      
+ 
