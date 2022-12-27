@@ -6,7 +6,7 @@ import wikipedia as wi
 import requests as r
 import plotly.graph_objs as go
 
-
+# Page setting
 st.set_page_config(page_title="Analysis with InvestEd",page_icon=":mag:",layout="wide")
 
 
