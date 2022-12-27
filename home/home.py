@@ -24,7 +24,7 @@ st.markdown("""
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item ">
-        <a class="nav-link" href="https://sandy0002-final-year-project-news-o8u51n.streamlitapp.com/">SignOn <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-news-ealg1b.streamlit.app/">SignOn <span class="sr-only">(current)</span></a>
       </li>
     </ul>
   </div>
