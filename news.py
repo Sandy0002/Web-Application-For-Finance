@@ -2,6 +2,7 @@ from newsapi import NewsApiClient
 import pycountry as pc
 import streamlit as st
 
+# Page layout setting
 st.set_page_config(page_title="News By InvestEd",page_icon=":newspaper:",layout="wide")
 hideStyle=""" <style>
     header {visibility:hidden}
@@ -11,8 +12,6 @@ hideStyle=""" <style>
 st.markdown(hideStyle,unsafe_allow_html=True)
 st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
 
-
-# 3498DB
 st.markdown(f"""
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color: #B2EA14;">
   <a class="navbar-brand" href="https://sandy0002-final-year-project-homehome-fcjqd2.streamlitapp.com/" target="_self">Home</a>
@@ -32,19 +31,15 @@ st.markdown(f"""
 </nav>
 """, unsafe_allow_html=True)
 
-
 key ="92ad4e5911bf487b9a93395d56692ec6"
-
 newsapi = NewsApiClient(api_key=key)
 
 # category for the news
 feedType =["International", "Local", "Particulars"]
 kind = st.sidebar.selectbox("Select news type",options=feedType)
 st.sidebar.write("##")
-
 categoryList = ['General', 'Business', 'Health', 'Technology', 'Science', 'Entertainment', 'Sports']
 if kind=="International" or kind=="Local":
-
     cat = st.sidebar.selectbox("Select News Category",categoryList)
     st.sidebar.write("##")
     newsCount = st.sidebar.selectbox("Select the number of news headlines", [5, 10, 15, 20, 25, 30], index=3)
@@ -54,7 +49,6 @@ if kind=="International" or kind=="Local":
     else:
         contName = pc.countries.get(name="India").alpha_2
         headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
- 
 else:
     particularNews= st.sidebar.text_input("Enter the topic:")
     newsCount=st.sidebar.selectbox("Select the number of articles",[5,10,15,20,25,30],index=3)
@@ -65,7 +59,6 @@ if kind!="Particulars":
     articles= headlines['articles']
 
 # if no headlines are there then we are giving the all the articles regarding that country
-
 if not articles:
     # here we are needed to give try because when no topic is given in particular news then its showing error
     try:
@@ -73,6 +66,7 @@ if not articles:
     except:
         pass
 
+# Generating Articles
 for article in articles:
     st.header(article['title'])
     if article['author']:
