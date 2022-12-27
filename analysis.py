@@ -38,7 +38,6 @@ st.markdown("""
 
 # defining functions for closing, Volume
 
-
 asset = st.sidebar.radio("Select Asset",["Stocks","Cryptos"])
 if asset=="Stocks":
     indexes = ["SENSEX","S&P 500","NASDAQ-100",""]
@@ -50,7 +49,6 @@ if asset=="Stocks":
     sensex ={}
     for i,j in zip(sencomp,sensym):
         sensex[i]=j
-
 
     spUrl=pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks')
     spcomp = spUrl[0]['Security']
@@ -68,7 +66,6 @@ if asset=="Stocks":
 
     if index=="SENSEX":
         opt = [i for i in sensex.keys()]
-
 
     elif index=="S&P 500":
         comp = st.sidebar.text_input("Enter Company Name")
@@ -99,13 +96,10 @@ if asset=="Stocks":
     elif index=="NASDAQ-100":
         opt = [i for i in nasd.keys()]
 
-
     if index !="S&P 500" and index:
         company = st.sidebar.selectbox("Select Company",options=opt)
 
-
     # using yfinance for analysis from here
-
     stDate=st.sidebar.date_input("Start date",datetime.date(2022,1,1))
     endDate=st.sidebar.date_input("End date",datetime.date.today())
 
@@ -127,7 +121,6 @@ if asset=="Stocks":
     inter = {"1 Minute":'1m',"2 Minutes":'2m',"5 Minutes":'5m',"15 Minutes":'15m', "30 Minutes":'30m',
              "1 Hour":'1h',"1 Day":'1d',"5 Days": '5d',"1 Month":'1mo', "3 Months":'3mo'}
     intList = [i for i in inter.keys()]
-
 
     interval = st.sidebar.selectbox("Select interval of data",options=intList,index=8)
     st.write("##")
@@ -161,9 +154,7 @@ if asset=="Stocks":
                 if tickrData.info['fiftyTwoWeekHigh']:
                     st.subheader("52 Week High")
                     st.write(tickrData.info['fiftyTwoWeekHigh'])
-
                 st.write("##")
-
                 st.header("**Data**")
                 st.write(tickrdf[['Open','Close']])
                 st.header("Closing Values")
@@ -183,7 +174,6 @@ if asset=="Stocks":
                 st.write(tickrdf['Volume'])
                 st.line_chart(tickrdf['Volume'])
                 st.bar_chart(tickrdf['Volume'])
-
 
                 st.write("##")
                 st.header("**Balence Sheet**")
@@ -233,12 +223,10 @@ if asset=="Stocks":
                 st.header("**Activities**")
                 st.write(tickrData.recommendations)
                 
-                
             except:
                 pass
         else:
             st.header('Not available')
-
 
 elif asset=="Cryptos":
     countries = {'Australia': 'AUD', 'Canada': 'CAD',
@@ -257,7 +245,6 @@ elif asset=="Cryptos":
 
     # getting the name of the country for currrency
     curr = st.sidebar.selectbox("Select the Country for currency exchange", countries.keys(), index=len(countries) - 1)
-
 
     # we will use this url to get the results
     url = 'https://v6.exchangerate-api.com/v6/f3bb0e3c82bee3decd651e90/latest/USD'
@@ -283,7 +270,6 @@ elif asset=="Cryptos":
             amount *= self.rates[to]
             return amount
 
-
     tickr = None
     def verifier(sym):
         # to verify if the data exists  we will find if the coin existed yesterday by finding if  closing value was
@@ -297,13 +283,12 @@ elif asset=="Cryptos":
         if len(data):
             return True
 
-        return
+        return False
 
     flag = 0
     if crypSym and curr:
         tickr = y.Ticker(f'{crypSym.upper()}-USD')
         flag = verifier(crypSym)
-
 
     if st.sidebar.button("Enter") :
         if flag and strt<end:
@@ -313,8 +298,7 @@ elif asset=="Cryptos":
                 to = countries[curr]
                 amount = 1
                 mf = c.convert(frm, to, amount)
-
-
+                
             else:
                 mf=1
             tickrData = tickr.history(period='1d', start=strt, end=end)
