@@ -33,7 +33,7 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 
-key ="xxxxxxxxxxxxxxxxx"
+key ="92ad4e5911bf487b9a93395d56692ec6"
 
 newsapi = NewsApiClient(api_key=key)
 
