@@ -46,7 +46,7 @@ with st.container():
     with leftCol:
         st.header("What to do with this?")
         st.markdown("""
-        As we have seen in the past few years life is uncertain. Anything can happen at any time. We must make sure to be prepared for any situation. So when nobody comes to help, the investments aid us in hard times. We look to help with our tool that provides the basic functionalities needed to start investing.""",unsafe_allow_html=True)
+        As we have seen in the past few years life has been uncertain. Anything can happen at any time. We must make sure to be prepared for any situation. So when nobody comes to help, the investments aid us in hard times. We look to help with our tool that provides the basic functionalities needed to start investing.""",unsafe_allow_html=True)
         
         st.write("##")
 
