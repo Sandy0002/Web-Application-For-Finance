@@ -82,7 +82,7 @@ with st.container():
         st.write('##')
         st.subheader('Hurry up and get started today by signing on')
    
-        # now we are going to add animation using lottie
+        # Adding animation using lottie
     with rightCol:
         st_lottie(lottieCode,height=350,key="Investing")      
  
