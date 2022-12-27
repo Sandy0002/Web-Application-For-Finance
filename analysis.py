@@ -9,52 +9,6 @@ import plotly.graph_objs as go
 # Page setting
 st.set_page_config(page_title="Analysis with InvestEd",page_icon=":mag:",layout="wide")
 
-
-def nif(company,tickrdf,low,high):
-    st.header(company)
-    st.write("##")
-    try:
-        st.info(wi.summary(company))
-        st.write('##')
-    except:
-        pass
-
-    st.header("**Stats**")
-    if tickrdf['Close'][-1]:
-        st.subheader("Previous Close Value")
-        st.write(tickrdf['Close'][-1])
-    st.write("##")
-    if low:
-        st.subheader("52 Week Low")
-        st.write(low)
-    st.write("##")
-    if high:
-        st.subheader("52 Week High")
-        st.write(high)
-
-    st.write("##")
-
-    st.header("**Data**")
-    st.write(tickrdf[['Open', 'Close']])
-    st.header("Closing Values")
-    st.write("Plots from ", stDate, "to ", end, "for ", company, "for closing values")
-    st.line_chart(tickrdf['Close'])
-    fig = go.Figure(data=[go.Candlestick(
-        x=tickrdf.index,
-        open=tickrdf['Open'],
-        close=tickrdf['Close'],
-        low=tickrdf['Low'],
-        high=tickrdf['High']
-    )])
-
-    st.plotly_chart(fig)
-    st.write("##")
-    st.subheader("Volumes Exchanged")
-    st.write(tickrdf['Volume'])
-    st.line_chart(tickrdf['Volume'])
-    st.bar_chart(tickrdf['Volume'])
-
-
 hideStyle=""" <style>
     header {visibility:hidden}
     footer {visibility: hidden}
