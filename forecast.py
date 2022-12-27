@@ -1,7 +1,5 @@
 import streamlit as st
 import yfinance as y
-# from tensorflow.keras.layers import Dense, LSTM
-# from tensorflow.keras.models import Sequential
 from keras.layers import Dense,LSTM
 from keras.models import Sequential
 from sklearn.preprocessing import MinMaxScaler
@@ -10,6 +8,7 @@ import plotly.graph_objs as go
 import pandas as pd
 import datetime
 
+# Configuring 
 class config:
     def __init__(self):
         self.configuration = """ <style>
@@ -35,7 +34,6 @@ class config:
     </nav>
     """
 
-
     def conf(self):
         st.set_page_config(page_title="  Forecast By InvestEd", page_icon=":mag_right:", layout="wide")
         st.markdown(self.configuration, unsafe_allow_html=True)
@@ -43,7 +41,7 @@ class config:
             unsafe_allow_html=True)
         st.markdown(self.navBar, unsafe_allow_html=True)
 
-
+# Getting Ticker Data
 class Asset:
     dic = {'1 Day': 1, '1 Week': 7, '15 Days': 15, '1 Month': 30, '2 Months': 60, '3 Months': 90}
     futInterval = None
@@ -132,10 +130,7 @@ class Asset:
             self.t = y.Ticker(self.tickr)
             return self.t
 
-
-
-
-
+# Generating Data from ticker data
 class Data:
     def __init__(self,tickr):
         self.data = tickr.history(period='5y', interval='1d')
@@ -143,7 +138,7 @@ class Data:
     def getData(self):
         return self.data
 
-
+# Model building
 class Model:
     def __init__(self,data):
         self.data = data
@@ -194,7 +189,7 @@ class Model:
         except Exception as e:
             pass
 
-
+# Generating future predicitions
 class Forecast:
     def __init__(self, tickr, data,model):
         self.model = model
@@ -301,8 +296,6 @@ class Forecast:
             st.plotly_chart(fig)
         except Exception as e:
             pass
-
-
 
 # configuration object
 con = config()
