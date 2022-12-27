@@ -21,10 +21,10 @@ st.markdown(f"""
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav">
       <li class="nav-item ">
-        <a class="nav-link" href="https://sandy0002-web-application-for-finance-analysis-nj6vsm.streamlit.app/">Analysis <span class="sr-only">(current)</span></a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-analysis-nj6vsm.streamlit.app/" target="_self">Analysis</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="https://sandy0002-web-application-for-finance-forecast-ooclvh.streamlit.app/">Forecast</a>
+        <a class="nav-link" href="https://sandy0002-web-application-for-finance-forecast-ooclvh.streamlit.app/" target="_self">Forecast</a>
       </li>
     </ul>
   </div>
