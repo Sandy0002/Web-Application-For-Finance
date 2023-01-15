@@ -10,6 +10,6 @@ datetime
 plotly
 nsepython
 tensorflow
-scikit-learn
 sklearn
+scikit-learn
 numpy
