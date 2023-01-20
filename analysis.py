@@ -68,6 +68,7 @@ if asset=="Stocks":
         opt = [i for i in sensex.keys()]
 
     elif index=="S&P 500":
+        comp=''
         comp = st.sidebar.text_input("Enter Company Name")
        
         if comp:
