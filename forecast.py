@@ -45,6 +45,7 @@ class config:
 class Asset:
     dic = {'1 Day': 1, '1 Week': 7, '15 Days': 15, '1 Month': 30, '2 Months': 60, '3 Months': 90}
     futInterval = None
+    c=None
     def __init__(self):
         indexes = ["SENSEX","S&P 500", "NASDAQ-100", " "]
         index = st.sidebar.selectbox("Select Index", options=indexes, index=3)
@@ -124,11 +125,11 @@ class Asset:
         st.sidebar.write("##")
 
         Asset.futInterval = st.sidebar.selectbox("Select The Period For Future Predictions", options=Asset.dic.keys())
-
+        Asset.c = company
     def tick(self):
         if self.tickr != None :
             self.t = y.Ticker(self.tickr)
-            return (self.t,company)
+            return (self.t,Asset.c)
 
 # Generating Data from ticker data
 class Data:
@@ -182,7 +183,7 @@ class Model:
             model.add(Dense(1))
             model.compile(loss='mean_squared_error', optimizer='adam',metrics=['mape'])
 
-            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=30, batch_size=24, verbose=1,workers=4,
+            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=2, batch_size=24, verbose=1,workers=4,
                       use_multiprocessing=True)
 
             return model
