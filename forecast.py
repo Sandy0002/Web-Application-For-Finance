@@ -183,7 +183,7 @@ class Model:
             model.add(Dense(1))
             model.compile(loss='mean_squared_error', optimizer='adam',metrics=['mape'])
 
-            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=5, batch_size=24, verbose=1,workers=4,
+            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=30, batch_size=24, verbose=1,workers=4,
                       use_multiprocessing=True)
 
             return model
