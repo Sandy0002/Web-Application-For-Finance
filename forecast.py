@@ -8,7 +8,7 @@ import plotly.graph_objs as go
 import pandas as pd
 import datetime
 
-# Configuring 
+# Configuring
 class config:
     def __init__(self):
         self.configuration = """ <style>
@@ -125,7 +125,7 @@ class Asset:
         st.sidebar.write("##")
 
         Asset.futInterval = st.sidebar.selectbox("Select The Period For Future Predictions", options=Asset.dic.keys())
-        Asset.c = company
+        Asset.c=company
     def tick(self):
         if self.tickr != None :
             self.t = y.Ticker(self.tickr)
@@ -183,7 +183,7 @@ class Model:
             model.add(Dense(1))
             model.compile(loss='mean_squared_error', optimizer='adam',metrics=['mape'])
 
-            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=2, batch_size=24, verbose=1,workers=4,
+            model.fit(X_train, y_train, validation_data=(X_test, ytest), epochs=5, batch_size=24, verbose=1,workers=4,
                       use_multiprocessing=True)
 
             return model
@@ -264,30 +264,30 @@ class Forecast:
         # Display of results
     def forecast(self,company):
         try:
-            try:
-            st.header(f"**{company}**")
-            st.write("##")
 
-            st.write("##")
-            st.header(f"Forecast for the next {self.futInterval}")
-            st.header("Predictions Data")
-            st.write(self.df)
-            st.header("Plots of forecast")
-            if self.dic[self.futInterval]>1:
-                st.line_chart(self.df['Predictions'])
-            open = self.close[:len(self.close) - 1]
-            open.insert(0, data['Close'][-1])
-            low = [min(i, j) for i, j in zip(open, self.close)]
-            high = [max(i, j) for i, j in zip(open, self.close)]
-            fig = go.Figure(data=[go.Candlestick(
-                x=self.ls,
-                open=open,
-                close=self.close,
-                low=low,
-                high=high
-            )])
-            st.plotly_chart(fig)
-        except Exception as e:
+                st.header(f"**{company}**")
+                st.write("##")
+
+                st.write("##")
+                st.header(f"Forecast for the next {self.futInterval}")
+                st.header("Predictions Data")
+                st.write(self.df)
+                st.header("Plots of forecast")
+                if self.dic[self.futInterval]>1:
+                    st.line_chart(self.df['Predictions'])
+                open = self.close[:len(self.close) - 1]
+                open.insert(0, data['Close'][-1])
+                low = [min(i, j) for i, j in zip(open, self.close)]
+                high = [max(i, j) for i, j in zip(open, self.close)]
+                fig = go.Figure(data=[go.Candlestick(
+                    x=self.ls,
+                    open=open,
+                    close=self.close,
+                    low=low,
+                    high=high
+                )])
+                st.plotly_chart(fig)
+        except:
             pass
 
 # configuration object
