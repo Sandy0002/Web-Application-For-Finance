@@ -128,7 +128,7 @@ class Asset:
     def tick(self):
         if self.tickr != None :
             self.t = y.Ticker(self.tickr)
-            return self.t
+            return (self.t,company)
 
 # Generating Data from ticker data
 class Data:
@@ -261,7 +261,7 @@ class Forecast:
             pass
 
         # Display of results
-    def forecast(self):
+    def forecast(self,company):
         try:
             try:
             st.header(f"**{company}**")
@@ -298,7 +298,7 @@ butt = st.sidebar.button("Enter")
 if butt:
     with st.empty():
         st.header('Please wait results are being prepared')
-        tickr = a.tick()
+        tickr,company = a.tick()
         data = None
         if tickr:
             data = Data(tickr)
@@ -308,4 +308,4 @@ if butt:
         model = m.makeModel()
         st.write('')
     f = Forecast(tickr, data, model)
-    f.forecast()
+    f.forecast(company)
