@@ -264,15 +264,7 @@ class Forecast:
     def forecast(self):
         try:
             try:
-                if tickr.info['logo_url']:
-                    logo = '<img src=%s>' % tickr.info['logo_url']
-                    st.markdown(logo, unsafe_allow_html=True)
-            except:
-                pass
-
-            st.write("##")
-
-            st.header(tickr.info['longName'])
+            st.header(f"**{company}**")
             st.write("##")
 
             st.write("##")
