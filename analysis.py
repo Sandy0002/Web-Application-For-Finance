@@ -3,19 +3,30 @@ import yfinance as y
 import pandas as pd
 import datetime
 import wikipedia as wi
-import requests as r
+import requests as re
 import plotly.graph_objs as go
 
 # Page setting
-st.set_page_config(page_title="Analysis with InvestEd",page_icon=":mag:",layout="wide")
+st.set_page_config(page_title="Analysis with InvestEd", page_icon=":mag:", layout="wide")
 
-hideStyle=""" <style>
+y.pdr_override()
+
+hideStyle = """ <style>
     header {visibility:hidden}
     footer {visibility: hidden}
     #MainMenu {visibility:visible}"""
 
-st.markdown(hideStyle,unsafe_allow_html=True)
-st.markdown('<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">', unsafe_allow_html=True)
+key = "C3F2S4QE73ESDY9G"
+
+st.markdown(hideStyle, unsafe_allow_html=True)
+st.markdown(
+    '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">',
+    unsafe_allow_html=True)
+
+st.markdown(hideStyle, unsafe_allow_html=True)
+st.markdown(
+    '<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">',
+    unsafe_allow_html=True)
 
 st.markdown("""
 <nav class="navbar fixed-top navbar-expand-lg navbar-light" style="background-color:#D428C4">
@@ -36,41 +47,41 @@ st.markdown("""
 </nav>
 """, unsafe_allow_html=True)
 
-# defining functions for closing, Volume
 
-asset = st.sidebar.radio("Select Asset",["Stocks","Cryptos"])
-if asset=="Stocks":
-    indexes = ["SENSEX","S&P 500","NASDAQ-100",""]
-    index =st.sidebar.selectbox("Select Index",options=indexes,index=len(indexes)-1)
+# Fetching the asset to be analyzed
+asset = st.sidebar.radio("Select Asset", ["Stocks", "Cryptos"])
+if asset == "Stocks":
+    indexes = ["SENSEX", "S&P 500", "NASDAQ-100", ""]
+    index = st.sidebar.selectbox("Select Index", options=indexes, index=len(indexes) - 1)
 
     sensexUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_BSE_SENSEX_companies')
     sencomp = list(sensexUrl[0]['Companies'])
     sensym = list(sensexUrl[0]['Symbol'])
-    sensex ={}
-    for i,j in zip(sencomp,sensym):
-        sensex[i]=j
+    sensex = {}
+    for i, j in zip(sencomp, sensym):
+        sensex[i] = j
 
-    spUrl=pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks')
+    spUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies#S&P_500_component_stocks')
     spcomp = spUrl[0]['Security']
     spsym = spUrl[0]['Symbol']
-    sp={}
-    for i,j in zip(spcomp,spsym):
-        sp[i]=j
+    sp = {}
+    for i, j in zip(spcomp, spsym):
+        sp[i] = j
 
     nasUrl = pd.read_html('https://en.wikipedia.org/wiki/Nasdaq-100#Components')
     nasCom = nasUrl[4]['Company']
-    nasSym= nasUrl[4]['Ticker']
-    nasd ={}
-    for i,j in zip(nasCom,nasSym):
-        nasd[i]=j
+    nasSym = nasUrl[4]['Ticker']
+    nasd = {}
+    for i, j in zip(nasCom, nasSym):
+        nasd[i] = j
 
-    if index=="SENSEX":
+    if index == "SENSEX":
         opt = [i for i in sensex.keys()]
 
-    elif index=="S&P 500":
-        comp=''
+    elif index == "S&P 500":
+        comp = ''
         comp = st.sidebar.text_input("Enter Company Name")
-       
+
         if comp:
             temp = ''
             t = comp[0].upper()
@@ -94,72 +105,77 @@ if asset=="Stocks":
                 st.write("# Currently unavailable")
         company = comp
 
-    elif index=="NASDAQ-100":
+    elif index == "NASDAQ-100":
         opt = [i for i in nasd.keys()]
 
-    if index !="S&P 500" and index:
-        company = st.sidebar.selectbox("Select Company",options=opt)
+    if index != "S&P 500" and index:
+        company = st.sidebar.selectbox("Select Company", options=opt)
 
     # using yfinance for analysis from here
-    stDate=st.sidebar.date_input("Start date",datetime.date(2022,1,1))
-    endDate=st.sidebar.date_input("End date",datetime.date.today())
+    stDate = st.sidebar.date_input("Start date", datetime.date(2022, 1, 1))
+    endDate = st.sidebar.date_input("End date", datetime.date.today())
 
     # So in order to generate data of the ticker we need to pass the ticker
-    tickr=''
+    companyTicker = ''
     if index == "SENSEX":
-        tickr = sensex[company]
+        companyTicker = sensex[company]
         t = sensex[company]
-    elif index == "S&P 500" and company :
-        tickr = sp[company]
+    elif index == "S&P 500" and company:
+        companyTicker = sp[company]
     elif index == "NASDAQ-100":
-        tickr = nasd[company]
+        companyTicker = nasd[company]
     else:
-        tickr=None
+        companyTicker = None
 
-    if tickr!=None:
-        tickrData=y.Ticker(tickr)
-  
-    inter = {"1 Minute":'1m',"2 Minutes":'2m',"5 Minutes":'5m',"15 Minutes":'15m', "30 Minutes":'30m',
-             "1 Hour":'1h',"1 Day":'1d',"5 Days": '5d',"1 Month":'1mo', "3 Months":'3mo'}
-    intList = [i for i in inter.keys()]
+    # Generating ticker object
+    if companyTicker != None:
+        tickr = y.Ticker(companyTicker)
 
-    interval = st.sidebar.selectbox("Select interval of data",options=intList,index=8)
-    st.write("##")
+    tickrdf =None
+
+    # This activates when Enter button is pressed
     if st.sidebar.button("Enter"):
-        if stDate<endDate:
-            tickrdf = tickrData.history(period=interval,start=stDate,end=endDate)
+        tickrData = tickr.fast_info
+        if stDate < endDate:
+            st.header(f"**{company}**")
 
+            # fetching stock history data
+            tickrdf = tickr.history(start=stDate, end=endDate)
             try:
-                # Display of data
-                if tickrData.info['logo_url']:
-                    logo = '<img src=%s>' % tickrData.info['logo_url']
-                    st.markdown(logo,unsafe_allow_html=True)
+                try:
+                    st.info(wi.summary(company))
+                except: pass
 
-                name = tickrData.info['longName']
-                st.header('**%s**' % name)
-
-                if 'longBusinessSummary' in tickrData.info:
-                    st.info(tickrData.info['longBusinessSummary'])
-                else:
-                    st.info(wi.summary(name))
-
+                st.write("##")
                 st.header("**Stats**")
-                if tickrData.info['previousClose']:
-                    st.subheader("Previous Close Value")
-                    st.write(tickrData.info['previousClose'])
+                if tickrData['previousClose']:
+                    st.subheader("Previous Close Price")
+                    st.write(tickrData['previousClose'])
                 st.write("##")
-                if tickrData.info['fiftyTwoWeekLow']:
+
+                if tickrData['dayLow']:
+                    st.subheader("Today's low value:")
+                    st.write(tickrData['dayLow'])
+                st.write("##")
+
+                if tickrData['dayHigh']:
+                    st.subheader("Today's high value:")
+                    st.write(tickrData['dayHigh'])
+                st.write("##")
+
+                if tickrData['yearLow']:
                     st.subheader("52 Week Low")
-                    st.write(tickrData.info['fiftyTwoWeekLow'])
+                    st.write(round(tickrData['yearLow'], 2))
                 st.write("##")
-                if tickrData.info['fiftyTwoWeekHigh']:
+                if tickrData['yearHigh']:
                     st.subheader("52 Week High")
-                    st.write(tickrData.info['fiftyTwoWeekHigh'])
+                    st.write(round(tickrData['yearHigh'], 2))
+
                 st.write("##")
                 st.header("**Data**")
-                st.write(tickrdf[['Open','Close']])
-                st.header("Closing Values")
-                st.write("Plots from ",stDate,"to ",endDate, "for ",company,"for closing values" )
+                st.write(tickrdf)
+                st.header("**Closing Values**")
+                st.write("Plots from ", stDate, "to ", endDate, "for ", company, "for closing values")
                 st.line_chart(tickrdf['Close'])
                 fig = go.Figure(data=[go.Candlestick(
                     x=tickrdf.index,
@@ -170,66 +186,172 @@ if asset=="Stocks":
                 )])
 
                 st.plotly_chart(fig)
-                st.write("##")
-                st.subheader("Volumes Exchanged")
+                st.subheader("**Volumes Exchanged**")
                 st.write(tickrdf['Volume'])
+                st.write("##")
                 st.line_chart(tickrdf['Volume'])
+                st.write("##")
                 st.bar_chart(tickrdf['Volume'])
 
-                st.write("##")
-                st.header("**Balence Sheet**")
-                st.write(tickrData.balancesheet)
+                sheetUrl = 'https://www.alphavantage.co/query?function=BALANCE_SHEET&symbol={0}&apikey={1}'.format(companyTicker, key)
+                req1 = re.get(sheetUrl)
+                sheetData = req1.json()
+                try:
+                    st.write("##")
+                    st.header("**Annual Balence Sheets**")
+                    annualDf = pd.DataFrame(sheetData['annualReports'])
+                    balanceSheetColumns = {'fiscalDateEnding': 'Fiscal Year', 'reportedCurrency': 'Reported Currency',
+                                            'totalAssets': 'Assets', 'totalCurrentAssets': 'Current Assets',
+                                           'cashAndCashEquivalentsAtCarryingValue': 'Cash and Equivalent Value',
+                                           'cashAndShortTermInvestments': 'Cash & Short Term Investments',
+                                           'inventory': 'Inventory', 'currentNetReceivables': 'Net Recievables',
+                                           'totalNonCurrentAssets': 'Non-Current Assets',
+                                           'propertyPlantEquipment': 'Property Plant Equipment',
+                                           'accumulatedDepreciationAmortizationPPE': 'Depreciation Amortization PPE',
+                                           'intangibleAssets': 'Intangible Assets',
+                                           'intangibleAssetsExcludingGoodwill': 'Asset Excluding GoodWill',
+                                           'goodwill': 'Good Will', 'investments': 'Investments',
+                                           'longTermInvestments': 'Long Term Investments',
+                                           'shortTermInvestments': 'Short Term Investments',
+                                           'otherCurrentAssets': 'Other Current Assets',
+                                           'otherNonCurrentAssets': 'Other Non-Current Assets',
+                                           'totalLiabilities': 'Liabilities',
+                                           'totalCurrentLiabilities': 'Current Liabilities',
+                                           'currentAccountsPayable': 'Current Accounts Payable',
+                                           'deferredRevenue': 'Deferred Revenue', 'currentDebt': 'Current Debt',
+                                           'shortTermDebt': 'Short-Term Debt',
+                                           'totalNonCurrentLiabilities': 'Non-Current Liabilities',
+                                           'capitalLeaseObligations': 'Capital Lease Obligations',
+                                           'longTermDebt': 'Long-Term Debt',
+                                           'currentLongTermDebt': 'Current Long-Term Debt',
+                                           'longTermDebtNoncurrent': 'Long-Term Debt Noncurrent',
+                                           'shortLongTermDebtTotal': 'Short Long-Term Debt Total',
+                                           'otherCurrentLiabilities': 'Other Current Liabilities',
+                                           'otherNonCurrentLiabilities': 'Other Non-Current Liabilities',
+                                           'totalShareholderEquity': 'Share Holder Equity',
+                                           'treasuryStock': 'Treasury Stock', 'retainedEarnings': 'Retained Earnings',
+                                           'commonStock': 'Common Stock',
+                                           'commonStockSharesOutstanding': 'Outstanding Stocks'}
 
-                st.write("##")
-                st.header("**Quarterly Balence Sheet**")
-                st.write(tickrData.quarterly_balancesheet)
 
-                st.write("##")
-                st.header("**Earnings**")
-                st.write(tickrData.earnings)
+                    annualDf.rename(columns=balanceSheetColumns, inplace=True)
+                    st.dataframe(annualDf)
 
-                st.write("##")
-                st.header("**Quarterly Earnings**")
-                st.write(tickrData.quarterly_earnings)
+                    st.write("##")
+                    st.header("**Quarterly Balence Sheet**")
+                    quarterDf = pd.DataFrame(sheetData['quarterlyReports'])
+                    quarterDf.rename(columns=balanceSheetColumns, inplace=True)
+                    st.dataframe(quarterDf)
+                except: pass
 
-                st.write("##")
-                st.write(tickrData.shares)
-                st.write(tickrData.institutional_holders)
+                incomeUrl = "https://www.alphavantage.co/query?function=INCOME_STATEMENT&symbol={0}&apikey={1}".format(companyTicker, key)
+                req2 = re.get(incomeUrl)
+                incomeData = req2.json()
+                try:
+                    st.write("##")
+                    st.header("**Annual Income Statements**")
 
-                st.write(tickrData.get_major_holders())
+                    annualdf = pd.DataFrame(incomeData['annualReports'])
 
-                st.write("##")
-                st.header("**Cash Flows**")
-                st.write(tickrData.cashflow)
+                    incomeStmtColumns = {'fiscalDateEnding': 'Fiscal Date', 'reportedCurrency': 'Reported Currency',
+                                         'grossProfit': 'Gross Profit',
+                                         'totalRevenue': 'Total Revenue', 'costOfRevenue': 'Cost Of Revenue',
+                                         'costofGoodsAndServicesSold': 'Goods And Services Sold',
+                                         'operatingIncome': 'Operating Income',
+                                         'sellingGeneralAndAdministrative': 'General And Administrative Sold',
+                                         'researchAndDevelopment': 'R & D',
+                                         'operatingExpenses': 'Operating Expenses',
+                                         'investmentIncomeNet': 'Net Investment Income',
+                                         'netInterestIncome': 'Net Interest Income', 'interestIncome': 'Interest Income',
+                                         'interestExpense': 'Interest Expense', 'nonInterestIncome': 'Non-Interest Income',
+                                         'otherNonOperatingIncome': 'Other Non0OperatingIncome',
+                                         'depreciation': 'Depreciation',
+                                         'depreciationAndAmortization': 'Depreciation And Amortization',
+                                         'incomeBeforeTax': 'Income Before Tax',
+                                         'incomeTaxExpense': 'Income Tax Expense',
+                                         'interestAndDebtExpense': 'Interest & Debt Expense',
+                                         'netIncomeFromContinuingOperations': 'Income From ContinuingOperations',
+                                         'comprehensiveIncomeNetOfTax': 'Net Income Of Tax',
+                                         'ebit': 'EBIT', 'ebitda': 'EBITDA', 'netIncome': 'Net Income'}
 
-                st.write("##")
-                st.header("**Quarterly Cash Flows**")
-                st.write(tickrData.quarterly_cashflow)
+                    annualDf.rename(columns=incomeStmtColumns, inplace=True)
+                    st.dataframe(annualDf)
 
-                st.write("##")
-                st.header("**Actions**")
-                act = tickrData.actions
-                st.write(tickrData.actions)
-                if len(act)>1:
-                    st.bar_chart(act['Dividends'])
-                    
-                st.write("##")
-                st.header("**Financial Statements**")
-                st.write(tickrData.financials)
-                st.write("##")
-                st.header("**Quarterly Financial Statements**")
-                st.write(tickrData.quarterly_financials)
+                    st.write("##")
+                    st.header("**Quarterly Income Statement**")
+                    quarterDf = pd.DataFrame(incomeData['quarterlyReports'])
+                    quarterDf.rename(columns=incomeStmtColumns, inplace=True)
+                    st.dataframe(quarterDf)
 
-                st.write('##')
-                st.header("**Activities**")
-                st.write(tickrData.recommendations)
-                
-            except:
-                pass
+                except: pass
+                cashFlowUrl='https://www.alphavantage.co/query?function=CASH_FLOW&symbol={0}&apikey={1}'.format(companyTicker,key)
+                req3 = re.get(cashFlowUrl)
+                cashFlowData = req3.json()
+                try:
+                    st.write("##")
+                    st.header("**Annual CashFlow**")
+                    annualdf = pd.DataFrame(cashFlowData['annualReports'])
+                    cashflowColumns = {'fiscalDateEnding': 'Fiscal Date Ending', 'reportedCurrency': 'Reported Currency',
+                                       'operatingCashflow': 'Operating CashFlow',
+                                       'paymentsForOperatingActivities': 'Operating Activities Payments',
+                                       'proceedsFromOperatingActivities': 'Operating Activities Proceeds',
+                                       'changeInOperatingLiabilities': 'Operating Liabilities Changes',
+                                       'changeInOperatingAssets': 'Operating Assets Changes',
+                                       'depreciationDepletionAndAmortization': 'Depreciation Depletion & Amortization',
+                                       'capitalExpenditures': 'Capital Expenditures',
+                                       'changeInReceivables': 'Receivables Changes',
+                                       'changeInInventory': 'Inventory Changes',
+                                       'profitLoss': 'Profit-Loss', 'cashflowFromInvestment': 'Cashflow From Investment',
+                                       'cashflowFromFinancing': 'Cashflow From Financing',
+                                       'proceedsFromRepaymentsOfShortTermDebt': 'Short Term Debt Repayments Proceeds',
+                                       'paymentsForRepurchaseOfCommonStock': 'Repurchase Of CommonStock Payments',
+                                       'paymentsForRepurchaseOfEquity': 'Equity Repurchase Payments',
+                                       'paymentsForRepurchaseOfPreferredStock': 'Preferred Stock Repurchase Payments',
+                                       'dividendPayout': 'Dividend Payout',
+                                       'dividendPayoutPreferredStock': 'Preferred Stocks Payout',
+                                       'proceedsFromIssuanceOfCommonStock': 'Issuance Of Common Stocks Proceeds',
+                                       'proceedsFromIssuanceOfLongTermDebtAndCapitalSecuritiesNet': 'Net Issuance Of Long-Term Debt And Capital Securities',
+                                       'proceedsFromIssuanceOfPreferredStock': 'Issuance Of Preferred Stocks Proceeds',
+                                       'proceedsFromRepurchaseOfEquity': 'Equity Repurchase Proceeds',
+                                       'proceedsFromSaleOfTreasuryStock': 'Treasuary Stock Sale Proceeds',
+                                       'changeInCashAndCashEquivalents': 'Cash And Cash Equivalents Changes',
+                                       'changeInExchangeRate': 'Change In ExchangeRate', 'netIncome': 'Net Income'}
+
+                    annualDf.rename(columns=cashflowColumns, inplace=True)
+                    st.dataframe(annualDf)
+
+                    st.write("##")
+                    st.header("**Quarterly CashFlow**")
+                    quarterDf = pd.DataFrame(cashFlowData['quarterlyReports'])
+                    quarterDf.rename(columns=cashflowColumns, inplace=True)
+                    st.dataframe(quarterDf)
+                except: pass
+
+                earningsUrl ='https://www.alphavantage.co/query?function=EARNINGS&symbol={0}&apikey={1}'.format(companyTicker,key)
+                req = re.get(earningsUrl)
+                earningsData = req.json()
+                try:
+                    st.write("##")
+                    st.header("**Annual Earnings**")
+                    annualDf = pd.DataFrame(earningsData['annualEarnings'])
+                    earningsColumns = {'fiscalDateEnding': 'Fiscal Date Ending', 'reportedEPS': 'EPS'}
+                    annualDf.rename(columns=earningsColumns, inplace=True)
+                    st.dataframe(annualDf)
+
+                    st.write("##")
+                    st.header("**Quarterly Earnings**")
+                    quarterDf = pd.DataFrame(earningsData['quarterlyEarnings'])
+                    col ={'fiscalDateEnding':'Fiscal Date Ending','reportedEPS':'EPS','reportedDate':'Reported Date',
+                      'estimatedEPS':'Estimated EPS','surprise':'Surprise','surprisePercentage':'Surprise Percentage'}
+                    quarterDf.rename(columns=col, inplace=True)
+                    st.dataframe(quarterDf)
+                except:pass
+            except: st.header("Unavailable")
         else:
-            st.header('Not available')
+            st.header("Unavailable")
 
-elif asset=="Cryptos":
+# if we choose cryto-currencies to look for
+else:
     countries = {'Australia': 'AUD', 'Canada': 'CAD',
                  'China': 'CNY', 'Germany': 'EUR', 'France': 'EUR',
                  'Indonesia': 'IDR', 'Israel': 'ILS', 'India': 'INR', 'Japan': 'JPY',
@@ -237,110 +359,44 @@ elif asset=="Cryptos":
                  'Russia': 'RUB', 'Saudi Arabia': 'SAR', 'Singapore': 'SGD', 'South Korea': 'KRW', 'Switzerland': 'CHF',
                  'Turkey': 'TRY', 'Taiwan': 'TWD', 'Ukraine': 'UAH', 'United Arab Emirates': 'AED',
                  'United Kingdom': 'GBP', 'United States': 'USD', 'South Africa': 'ZAR', '': ''}
-    # currency Api key
+
     curKey = 'bd167aef0623e4cc6a2140e4b30055ba'
-    # keys = [i for i in contryCodes.keys()]
 
     # getting the cryptos symbol
     crypSym = st.sidebar.text_input("Enter the crypto  symbol")
+    crypSym = crypSym.upper()
 
     # getting the name of the country for currrency
     curr = st.sidebar.selectbox("Select the Country for currency exchange", countries.keys(), index=len(countries) - 1)
 
-    # we will use this url to get the results
-    url = 'https://v6.exchangerate-api.com/v6/f3bb0e3c82bee3decd651e90/latest/USD'
+    # taking the start and end dates for data
+    startDate = st.sidebar.date_input("Start date", datetime.datetime(2022, 1, 1))
+    endDate = st.sidebar.date_input("End date", datetime.datetime.today())
 
-    st.sidebar.write("##")
+    # Creating crypto string with currency to be used
+    crypto = "{0}-{1}".format(crypSym, countries[curr])
 
-    strt = st.sidebar.date_input("Start Date of Data", datetime.date(2022, 1, 1))
-    end = st.sidebar.date_input("End Date of Data", datetime.date.today())
-    inter = {"1 Minute": '1m', "2 Minutes": '2m', "5 Minutes": '5m', "15 Minutes": '15m', "30 Minutes": '30m',
-             "1 Hour": '1h', "1 Day": '1d', "5 Days": '5d', "1 Month": '1mo', "3 Months": '3mo'}
-    intList = [i for i in inter.keys()]
-    interval = st.sidebar.selectbox("Select interval of data", options=intList, index=8)
+    if st.sidebar.button("Enter"):
+        try:
+            tickrData = y.download(crypto,start=startDate,end=endDate)
 
-    class converter:
-        def __init__(self, url):
-            data = r.get(url).json()
-            self.rates = data['conversion_rates']
-
-        def convert(self, frm, to, amount):
-            if frm != 'EUR':
-                amount /= self.rates[frm]
-
-            amount *= self.rates[to]
-            return amount
-
-    tickr = None
-    def verifier(sym):
-        # to verify if the data exists  we will find if the coin existed yesterday by finding if  closing value was
-        # there
-        tickr = y.Ticker(f'{sym.upper()}-USD')
-        today = datetime.date.today()
-        oneDay = datetime.timedelta(days=1)
-        yesterday = today - oneDay
-
-        data = tickr.history(period='1h', start=yesterday - oneDay, end=yesterday)
-        if len(data):
-            return True
-
-        return False
-
-    flag = 0
-    if crypSym and curr:
-        tickr = y.Ticker(f'{crypSym.upper()}-USD')
-        flag = verifier(crypSym)
-
-    if st.sidebar.button("Enter") :
-        if flag and strt<end:
-            if countries[curr] != 'USD' and tickr:
-                c = converter(url)
-                frm = 'USD'
-                to = countries[curr]
-                amount = 1
-                mf = c.convert(frm, to, amount)
-                
-            else:
-                mf=1
-            tickrData = tickr.history(period='1d', start=strt, end=end)
-            dta =tickrData
-
-            try:
-                st.header(tickr.info['name'])
-                st.subheader("Symbol")
-                st.info(f'{crypSym.upper()}-{countries[curr]}')
-            except:
-                pass
-
-            st.write("##")
-
-            st.header("Last Closing Value")
-            st.write(tickrData['Close'][-1]*mf)
-
-            st.write('##')
-
-            st.header("Description")
-            if tickr.info['description']:
-                st.info(tickr.info['description'])
-            else:
-                st.info(wi.summary(tickr['name']))
-            st.write("##")
-
-            st.header("Data")
-            tickrData = tickr.history(period=interval, start=strt, end=end)
-            # calculating multiplication factor for adding those to the data values in the df
-            tickrData['High'] = tickrData['High'].apply(lambda x: x * mf)
-            tickrData['Close'] = tickrData['Close'].apply(lambda x: x * mf)
-            tickrData['Low'] = tickrData['Low'].apply(lambda x: x * mf)
-            tickrData['Open'] = tickrData['Open'].apply(lambda x: x * mf)
-            del tickrData['Dividends'], tickrData['Stock Splits']
+            st.header("**Data**")
             st.write(tickrData)
 
+            st.write("##")
+
+            st.header("**Previous Closing Price**")
+            st.write(tickrData['Close'][-1])
+
+            st.write('##')
             st.header("Closings")
             st.write(tickrData[['Open', 'Close']])
+
             st.header("Closing Values")
-            st.write("Plots from ", strt, "to ", end, "for ", tickr.info['name'], "for closing values")
+            st.write("Plots from ", startDate, "to ", endDate, "for closing values")
             st.line_chart(tickrData['Close'])
+
+            dta = tickrData
             fig = go.Figure(data=[go.Candlestick(
                 x=dta.index,
                 open=dta['Open'],
@@ -350,24 +406,10 @@ elif asset=="Cryptos":
             )])
             st.plotly_chart(fig)
             st.write("##")
-            st.header("Volumes Exchanged")
+            st.header("**Volumes Exchanged**")
             st.line_chart(tickrData['Volume'])
+            st.write("##")
             st.bar_chart(tickrData['Volume'])
-            st.write("##")
 
-            st.write("##")
-
-            st.header("52 Weeks High")
-            try:
-                st.write(tickr.info['fiftyTwoWeekHigh']*mf)
-            except:
-                st.write('NA')
-
-            st.write("##")
-            st.header(" 52 Weeks Low")
-            try:
-                st.write(tickr.info['fiftyTwoWeekLow']*mf)
-            except:
-                st.write('NA')
-        else:
-            st.header('Not available')
+        except:
+            st.header("Not Available")
