@@ -383,7 +383,7 @@ else:
         if tickrData.empty:
             st.header("Unvailable")
             
-            st.write(tickrData)
+        # printing cryptos information
         else:
             st.header("**Data**")
             st.write(tickrData)
