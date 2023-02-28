@@ -132,7 +132,7 @@ if asset == "Stocks":
         tickr = y.Ticker(companyTicker)
 
     tickrdf =None
-    st.write(companyTicker)
+  
     # This activates when Enter button is pressed
     if st.sidebar.button("Enter") and companyTicker!=None:
         tickrData = tickr.fast_info
