@@ -132,7 +132,7 @@ class Asset:
         if self.tickr != None :
             self.t = y.Ticker(self.tickr)
             return (self.t,Asset.c)
-
+        return (None,None)
 # Generating Data from ticker data
 class Data:
     def __init__(self,tickr):
@@ -298,10 +298,10 @@ con.conf()
 a = Asset()
 st.sidebar.write("##")
 butt = st.sidebar.button("Enter")
+
 if butt:
     with st.empty():
         st.header('Please wait results are being prepared')
-        
         tickr,company = a.tick()
         st.write(tickr,company)
         data = None
@@ -314,6 +314,7 @@ if butt:
         st.write('')
     f = Forecast(tickr, data, model)
     f.forecast(company)
+        
   
     
     
