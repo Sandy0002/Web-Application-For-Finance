@@ -311,4 +311,8 @@ if butt:
         model = m.makeModel()
         st.write('')
     f = Forecast(tickr, data, model)
-    f.forecast(company)
+    if company:
+        f.forecast(company)
+    st.write("# Unavailbable")
+    
+    
