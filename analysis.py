@@ -134,7 +134,7 @@ if asset == "Stocks":
     tickrdf =None
 
     # This activates when Enter button is pressed
-    if st.sidebar.button("Enter"):
+    if st.sidebar.button("Enter") and tickr!=None:
         tickrData = tickr.fast_info
         if stDate < endDate:
             st.header(f"**{company}**")
