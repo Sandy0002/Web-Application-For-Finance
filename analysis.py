@@ -379,12 +379,12 @@ else:
     crypto = "{0}-{1}".format(crypSym, countries[curr])
 
     if st.sidebar.button("Enter"):
-        try:
-            tickrData = y.download(crypto,start=startDate,end=endDate)
-        except:
+        tickrData = y.download(crypto,start=startDate,end=endDate)
+        if tickrData.empty:
             st.header("Unvailable")
-        st.write(tickrData)
-        if tickrData:
+            
+            st.write(tickrData)
+        else:
             st.header("**Data**")
             st.write(tickrData)
 
