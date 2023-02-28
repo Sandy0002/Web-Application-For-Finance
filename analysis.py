@@ -53,7 +53,7 @@ asset = st.sidebar.radio("Select Asset", ["Stocks", "Cryptos"])
 if asset == "Stocks":
     indexes = ["SENSEX", "S&P 500", "NASDAQ-100", ""]
     index = st.sidebar.selectbox("Select Index", options=indexes, index=len(indexes) - 1)
-
+    company=None
     sensexUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_BSE_SENSEX_companies')
     sencomp = list(sensexUrl[0]['Companies'])
     sensym = list(sensexUrl[0]['Symbol'])
