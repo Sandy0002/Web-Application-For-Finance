@@ -102,7 +102,7 @@ if asset == "Stocks":
                         temp = spcomp[i]
                     i += 1
             if temp == '':
-                st.write("# Currently unavailable")
+                st.write("# Unavailable")
         company = comp
 
     elif index == "NASDAQ-100":
@@ -120,7 +120,7 @@ if asset == "Stocks":
     if index == "SENSEX":
         companyTicker = sensex[company]
         t = sensex[company]
-    elif index == "S&P 500" and company:
+    elif index == "S&P 500" and company in sp:
         companyTicker = sp[company]
     elif index == "NASDAQ-100":
         companyTicker = nasd[company]
@@ -346,7 +346,7 @@ if asset == "Stocks":
                     quarterDf.rename(columns=col, inplace=True)
                     st.dataframe(quarterDf)
                 except:pass
-            except: st.header("Unavailable")
+            except: pass
         else:
             st.header("Unavailable")
 
