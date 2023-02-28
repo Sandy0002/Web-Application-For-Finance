@@ -355,13 +355,14 @@ if asset == "Stocks":
 # if we choose cryto-currencies to look for
 else:
     countries = {'Australia': 'AUD', 'Canada': 'CAD',
-                 'China': 'CNY', 'Germany': 'EUR', 'France': 'EUR',
-                 'Indonesia': 'IDR', 'Israel': 'ILS', 'India': 'INR', 'Japan': 'JPY',
-                 'New Zealand': 'NZD', 'Philippines': 'PHP',
-                 'Russia': 'RUB', 'Saudi Arabia': 'SAR', 'Singapore': 'SGD', 'South Korea': 'KRW', 'Switzerland': 'CHF',
-                 'Turkey': 'TRY', 'Taiwan': 'TWD', 'Ukraine': 'UAH', 'United Arab Emirates': 'AED',
-                 'United Kingdom': 'GBP', 'United States': 'USD', 'South Africa': 'ZAR', '': ''}
-
+             'China': 'CNY', 'Germany': 'EUR', 'France': 'EUR',
+             'Indonesia': 'IDR', 'Israel': 'ILS', 'India': 'INR', 'Japan': 'JPY',
+             'New Zealand': 'NZD', 'Philippines': 'PHP',
+             'Russia': 'RUB', 'Saudi Arabia': 'SAR', 'Singapore': 'SGD', 'South Korea': 'KRW', 'Switzerland': 'CHF',
+             'Turkey': 'TRY', 'Taiwan': 'TWD', 'Ukraine': 'UAH', 'United Arab Emirates': 'AED',
+             'United Kingdom': 'GBP', 'United States': 'USD', 'South Africa': 'ZAR', '': ''}
+    
+    # currency Api key
     curKey = 'bd167aef0623e4cc6a2140e4b30055ba'
 
     # getting the cryptos symbol
@@ -371,26 +372,73 @@ else:
     # getting the name of the country for currrency
     curr = st.sidebar.selectbox("Select the Country for currency exchange", countries.keys(), index=len(countries) - 1)
 
-    # taking the start and end dates for data
+    # we will use this url to get the results
+    url = 'https://v6.exchangerate-api.com/v6/f3bb0e3c82bee3decd651e90/latest/USD'
+
+    st.sidebar.write("##")
+
     startDate = st.sidebar.date_input("Start date", datetime.datetime(2022, 1, 1))
     endDate = st.sidebar.date_input("End date", datetime.datetime.today())
 
-    # Creating crypto string with currency to be used
-    crypto = "{0}-{1}".format(crypSym, countries[curr])
+    crypto = "{0}-USD".format(crypSym)
 
+    class converter:
+        def __init__(self, url):
+            data = re.get(url).json()
+            self.rates = data['conversion_rates']
+
+        def convert(self, frm, to, amount):
+            if frm != 'EUR':
+                amount /= self.rates[frm]
+
+            amount *= self.rates[to]
+            return amount
+        
+    def verifier(crypto):
+        # to verify if the data exists  we will find if the coin existed yesterday by finding if  closing value was there
+        today = datetime.date.today()
+        oneDay = datetime.timedelta(days=1)
+        yesterday = today - oneDay
+
+        data = y.download(crypto,start=yesterday - oneDay, end=yesterday)
+        if data.empty:
+            return False
+
+        return True
+    
+    flag = 0
     if st.sidebar.button("Enter"):
-        tickrData = y.download(crypto,start=startDate,end=endDate)
-        if tickrData.empty:
-            st.header("Unvailable")
-            
-        # printing cryptos information
-        else:
+        if crypSym and curr:
+            flag = verifier(crypto)
+
+        if flag and startDate < endDate:
+            # calculating multiplication factor for adding those to the data values in the df
+            if countries[curr] != 'USD':
+                c = converter(url)
+                frm = 'USD'
+                to = countries[curr]
+                # as we need 1 unit of currency to apply on dataframe
+                amount = 1
+                mf = c.convert(frm, to, amount)
+
+            else:
+                mf = 1
+
+            tickrData = y.download(crypto, start=startDate, end=endDate)
+            # if tickrData.empty:
+            #     st.header("# Unavailable")
             st.header("**Data**")
+            tickrData['High'] = tickrData['High'].apply(lambda x: x * mf)
+            tickrData['Close'] = tickrData['Close'].apply(lambda x: x * mf)
+            tickrData['Low'] = tickrData['Low'].apply(lambda x: x * mf)
+            tickrData['Open'] = tickrData['Open'].apply(lambda x: x * mf)
+            # del tickrData['Dividends'], tickrData['Stock Splits']
             st.write(tickrData)
 
+            # else:
             st.write("##")
 
-            st.header("**Previous Closing Price**")
+            st.header("Previous Closing Value")
             st.write(tickrData['Close'][-1])
 
             st.write('##')
@@ -416,4 +464,5 @@ else:
             st.write("##")
             st.bar_chart(tickrData['Volume'])
 
-        
+        else:
+            st.write("# Unavailable")
