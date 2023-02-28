@@ -381,7 +381,10 @@ else:
     if st.sidebar.button("Enter"):
         try:
             tickrData = y.download(crypto,start=startDate,end=endDate)
-
+        except:
+            st.header("Unvailable")
+       
+        if tickrData:
             st.header("**Data**")
             st.write(tickrData)
 
@@ -413,5 +416,4 @@ else:
             st.write("##")
             st.bar_chart(tickrData['Volume'])
 
-        except:
-            st.header("Not Available")
+        
