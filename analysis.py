@@ -54,6 +54,7 @@ if asset == "Stocks":
     indexes = ["SENSEX", "S&P 500", "NASDAQ-100", ""]
     index = st.sidebar.selectbox("Select Index", options=indexes, index=len(indexes) - 1)
     company=None
+    
     sensexUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_BSE_SENSEX_companies')
     sencomp = list(sensexUrl[0]['Companies'])
     sensym = list(sensexUrl[0]['Symbol'])
@@ -126,14 +127,15 @@ if asset == "Stocks":
         companyTicker = nasd[company]
     else:
         companyTicker = None
-
+    
+    tickr=None
     # Generating ticker object
     if companyTicker != None:
         tickr = y.Ticker(companyTicker)
 
     tickrdf =None
   
-    # This activates when Enter button is pressed
+    # This statment works as a button and activates when "Enter" is pressed
     if st.sidebar.button("Enter") and companyTicker!=None:
         tickrData = tickr.fast_info
         if stDate < endDate:
