@@ -300,20 +300,24 @@ st.sidebar.write("##")
 butt = st.sidebar.button("Enter")
 
 if butt:
-    with st.empty():
-        st.header('Please wait results are being prepared')
-        tickr,company = a.tick()
-        st.write(tickr,company)
-        data = None
-        if tickr:
-            data = Data(tickr)
-            data = data.getData()
+    tickr,company = a.tick()
+    if tickr!=None:
+        with st.empty():
+            st.header('Please wait results are being prepared')
 
-        m = Model(data)
-        model = m.makeModel()
-        st.write('')
-    f = Forecast(tickr, data, model)
-    f.forecast(company)
+            data = None
+            if tickr:
+                data = Data(tickr)
+                data = data.getData()
+
+            m = Model(data)
+            model = m.makeModel()
+            st.write('')
+        f = Forecast(tickr, data, model)
+        f.forecast(company)
+    else:
+        st.write("# Unavailable")
+        
         
   
     
