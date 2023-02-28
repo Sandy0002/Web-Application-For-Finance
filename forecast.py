@@ -315,8 +315,3 @@ if butt:
         f.forecast(company)
     else:
         st.write("# Unavailable")
-        
-        
-  
-    
-    
