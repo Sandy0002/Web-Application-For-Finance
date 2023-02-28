@@ -101,8 +101,6 @@ class Asset:
                             comp = spcomp[i]
                             temp = spcomp[i]
                         i += 1
-                if temp == '':
-                    st.write("# Currently unavailable")
             company=comp
 
 
