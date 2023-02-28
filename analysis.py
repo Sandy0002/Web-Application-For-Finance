@@ -177,6 +177,8 @@ if asset == "Stocks":
                 st.header("**Data**")
                 st.write(tickrdf)
                 st.header("**Closing Values**")
+                today = datetime.date.today()
+                endDate = today if endDate>today else endDate
                 st.write("Plots from ", stDate, "to ", endDate, "for ", company, "for closing values")
                 st.line_chart(tickrdf['Close'])
                 fig = go.Figure(data=[go.Candlestick(
