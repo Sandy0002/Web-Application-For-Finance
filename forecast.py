@@ -49,6 +49,8 @@ class Asset:
     def __init__(self):
         indexes = ["SENSEX","S&P 500", "NASDAQ-100", " "]
         index = st.sidebar.selectbox("Select Index", options=indexes, index=3)
+        company=None
+   
         st.sidebar.write("##")
 
         sensexUrl = pd.read_html('https://en.wikipedia.org/wiki/List_of_BSE_SENSEX_companies')
