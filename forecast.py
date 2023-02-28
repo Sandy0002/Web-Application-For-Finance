@@ -301,7 +301,9 @@ butt = st.sidebar.button("Enter")
 if butt:
     with st.empty():
         st.header('Please wait results are being prepared')
+        
         tickr,company = a.tick()
+        st.write(tickr,company)
         data = None
         if tickr:
             data = Data(tickr)
@@ -311,8 +313,7 @@ if butt:
         model = m.makeModel()
         st.write('')
     f = Forecast(tickr, data, model)
-    if company:
-        f.forecast(company)
-    st.write("# Unavailbable")
+    f.forecast(company)
+  
     
     
