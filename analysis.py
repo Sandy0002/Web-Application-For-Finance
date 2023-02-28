@@ -383,7 +383,7 @@ else:
             tickrData = y.download(crypto,start=startDate,end=endDate)
         except:
             st.header("Unvailable")
-       
+        st.write(tickrData)
         if tickrData:
             st.header("**Data**")
             st.write(tickrData)
