@@ -1,7 +1,8 @@
 from newsapi import NewsApiClient
 import pycountry as pc
 import streamlit as st
-
+import datetime
+import requests as re
 # Page layout setting
 st.set_page_config(page_title="News By InvestEd",page_icon=":newspaper:",layout="wide")
 hideStyle=""" <style>
@@ -39,43 +40,57 @@ feedType =["International", "Local", "Particulars"]
 kind = st.sidebar.selectbox("Select news type",options=feedType)
 st.sidebar.write("##")
 categoryList = ['General', 'Business', 'Health', 'Technology', 'Science', 'Entertainment', 'Sports']
-if kind=="International" or kind=="Local":
+
+oneDay = datetime.timedelta(days=1)
+frm = datetime.date.today() - oneDay
+to = datetime.date.today()
+
+headlines=None
+everything=None
+if kind!="Particulars":
     cat = st.sidebar.selectbox("Select News Category",categoryList)
     st.sidebar.write("##")
     newsCount = st.sidebar.selectbox("Select the number of news headlines", [5, 10, 15, 20, 25, 30], index=3)
     st.sidebar.write("##")
+
     if kind=="International":
         headlines = newsapi.get_top_headlines(language="en", category=cat.lower(), page_size=newsCount)
+        # otherNews = newsapi.get_everything(language="en",page_size=newsCount,from_param=frm,to=to)
     else:
-        contName = pc.countries.get(name="India").alpha_2
-        headlines = newsapi.get_top_headlines(category=cat.lower(), country=contName.lower(), language='en', page_size=newsCount)
+
+        link = re.get('https://newsapi.org/v2/top-headlines?country=in&category={0}&apiKey={1}'.format(cat, key))
+        headlines = link.json()
+        # headlines = newsapi.get_top_headlines(category=cat.lower(), country='in', language='en', page_size=newsCount)
+        everything = newsapi.get_everything(q="India",language="en", page_size=newsCount, from_param=frm,to=to)
 else:
     particularNews= st.sidebar.text_input("Enter the topic:")
     newsCount=st.sidebar.selectbox("Select the number of articles",[5,10,15,20,25,30],index=3)
     if particularNews:
+        headlines = newsapi.get_top_headlines(q=particularNews,qintitle=particularNews,language="en",page_size=newsCount)
         everything = newsapi.get_everything(q=particularNews, language='en',page_size=newsCount)
-articles=""
-if kind!="Particulars":
-    articles= headlines['articles']
 
-# if no headlines are there then we are giving the all the articles regarding that country
+articles=None
+articles=headlines['articles']
+
+# here we are needed to give try because when no topic is given in particular news then its showing error
 if not articles:
-    # here we are needed to give try because when no topic is given in particular news then its showing error
     try:
-        articles = everything['articles']
-    except:
-        pass
-
+        # if no headlines are there then we are giving the all the articles regarding that country
+        articles=everything['articles']
+    except: pass
+    
+button  = st.sidebar.button("Enter")
 # Generating Articles
-for article in articles:
-    st.header(article['title'])
-    if article['author']:
-        st.write('Author:', article['author'])
-    st.write('Source:', article['source']['name'])
-    try:
-        st.image(article['urlToImage'])
-    except Exception:
-        pass
-    loc = article['url']
-    content= ('Read more clicking [here]({loc})'.format(loc=loc))
-    st.markdown(content,unsafe_allow_html=True)
+if button:
+    for article in articles:
+        st.header(article['title'])
+        if article['author']:
+            st.write('Author:', article['author'])
+        st.write('Source:', article['source']['name'])
+        try:
+            st.image(article['urlToImage'])
+        except Exception:
+            pass
+        loc = article['url']
+        content= ('Read more clicking [here]({loc})'.format(loc=loc))
+        st.markdown(content,unsafe_allow_html=True)
