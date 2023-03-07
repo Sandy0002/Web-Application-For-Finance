@@ -63,14 +63,17 @@ if kind!="Particulars":
         # headlines = newsapi.get_top_headlines(category=cat.lower(), country='in', language='en', page_size=newsCount)
         everything = newsapi.get_everything(q="India",language="en", page_size=newsCount, from_param=frm,to=to)
 else:
-    particularNews= st.sidebar.text_input("Enter the topic:")
+    particularNews= st.sidebar.text_input("Enter topic")
+    st.sidebar.write("##")
     newsCount=st.sidebar.selectbox("Select the number of articles",[5,10,15,20,25,30],index=3)
+    st.sidebar.write("##")
     if particularNews:
         headlines = newsapi.get_top_headlines(q=particularNews,qintitle=particularNews,language="en",page_size=newsCount)
         everything = newsapi.get_everything(q=particularNews, language='en',page_size=newsCount)
 
-articles=None
-articles=headlines['articles']
+articles=""
+if headlines:
+    articles=headlines['articles']
 
 # here we are needed to give try because when no topic is given in particular news then its showing error
 if not articles:
