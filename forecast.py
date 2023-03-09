@@ -264,10 +264,7 @@ class Forecast:
         # Display of results
     def forecast(self,company):
         try:
-
                 st.header(f"**{company}**")
-                st.write("##")
-
                 st.write("##")
                 st.header(f"Forecast for the next {self.futInterval}")
                 st.header("Predictions Data")
