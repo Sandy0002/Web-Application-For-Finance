@@ -11,5 +11,4 @@ plotly
 nsepython
 tensorflow
 scikit-learn
-sklearn
 numpy
