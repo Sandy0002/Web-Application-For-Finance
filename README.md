@@ -1,4 +1,4 @@
-# Web Application For Stock Price Prediction
+# Web Application For Finance
 
 ## Table Of Content
 
