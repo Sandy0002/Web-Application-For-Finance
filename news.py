@@ -32,7 +32,7 @@ st.markdown(f"""
 </nav>
 """, unsafe_allow_html=True)
 
-key ="92ad4e5911bf487b9a93395d56692ec6"
+key ="YOUR_API_KEY"
 newsapi = NewsApiClient(api_key=key)
 
 # category for the news
